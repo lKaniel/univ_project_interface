@@ -1,0 +1,74 @@
+.PopUpWrap{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+
+  .PopUp{
+    width: 400px;
+    height: 300px;
+    background: #ffe;
+    border-radius: 40px;
+    box-shadow: 0px 0px 10px #ffe;
+
+    input, button{
+      outline: none;
+      border: none;
+      transition: transform .1s, box-shadow .1s;
+    }
+
+    label{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    input[type="text"],input[type="password"], label{
+      width: 260px;
+      height: 50px;
+      margin: 30px 50px;
+      padding: 20px;
+      border-radius: 25px;
+      background: #D9AFD9;
+      box-shadow: 0px 0px 5px #D9AFD9;
+      font-size: 20px;
+      color: #ffe;
+      font-weight: 700;
+      transform: scale(1);
+
+      &::placeholder {
+        color: #eed;
+      }
+
+      &:hover, &:focus{
+        //transform: scale(1.01);
+        box-shadow: 0px 0px 10px #D9AFD9;
+      }
+    }
+
+    input[type="submit"], button {
+      float: left;
+      width: 200px;
+      height: 60px;
+      background: #97D9E1;
+      margin: 30px 100px;
+      margin-right: 0px;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+      border-radius: 60px;
+      cursor: pointer;
+
+      &:hover, &:focus {
+        transform: scale(1.01);
+        box-shadow: 0px 0px 10px #97D9E1;
+      }
+    }
+  }
+}

@@ -1,13 +1,16 @@
 import Layout from "./components/Layout/Layout";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import Login from "./components/Login/Login";
 import FileExplorer from "./components/FileExplorer/FileExplorer";
+import PopUp from "./components/PopUp/PopUp";
 
 function App() {
 
     const [state, setState] = useState({
-        isValid: false
+        isValid: false,
+        popup: null,
+        reload: false
     })
 
     let checkToken = useCallback(async () => {
@@ -44,12 +47,35 @@ function App() {
     useEffect(() => {
         checkToken()
     }, [checkToken])
+
+    let reload = useCallback(()=>{
+        setState(prev => {
+            return{
+                ...prev,
+                reload:!prev.reload
+            }
+        })
+    },[])
+
+    const openPopup = useCallback((popup)=>{
+        setState(prev => {
+            return{
+                ...prev,
+                popup
+            }
+        })
+    },[])
     return (
         <Layout>
+            {
+                state.popup != null ?
+                    <PopUp openPopup={openPopup} type={state.popup} reload={reload}/> : null
+
+            }
             {!state.isValid ? <Login checkToken={checkToken}/>
                 : null
             }
-            {state.isValid ? <FileExplorer/>
+            {state.isValid ? <FileExplorer reload={state.reload} openPopup={openPopup}/>
                 :null
             }
         </Layout>

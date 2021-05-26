@@ -18,14 +18,43 @@
     justify-content: space-around;
     border-radius: 20px;
     cursor: pointer;
+    overflow: visible;
 
     &:hover{
       background: #97D9E144;
+
+      .Remove{
+        visibility: visible;
+      }
+    }
+
+    .Remove{
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: #d076b4;
+      margin-left: 130px;
+      margin-top: -130px;
+      border-radius: 50px;
+      color: #ffe;
+      font-weight: 700;
+      font-size: 20px;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      visibility: hidden;
     }
 
     .Icon{
       width: 150px;
       height: 150px;
+    }
+
+    .Icon.small{
+      width: 130px;
+      height: 130px;
+      padding: 10px;
     }
 
     .Name{

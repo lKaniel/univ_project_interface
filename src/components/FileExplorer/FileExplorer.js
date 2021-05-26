@@ -2,8 +2,9 @@ import React, {useCallback, useEffect, useState} from 'react';
 import AdressBar from "../AdressBar/AdressBar";
 import FileContainer from "../FileContainer/FileContainer";
 import axios from "axios";
+const FileDownload = require('js-file-download');
 
-const FileExplorer = () => {
+const FileExplorer = ({openPopup, reload}) => {
 
     const [state, setState] = useState({
         path: "/",
@@ -34,8 +35,7 @@ const FileExplorer = () => {
 
     useEffect(() => {
         getFiles()
-        console.log(123123123)
-    }, [getFiles])
+    }, [getFiles, reload])
 
     const clickOnFolder = useCallback(name => {
         setState(prev => {
@@ -61,10 +61,29 @@ const FileExplorer = () => {
         })
     })
 
+    const clickOnFile = useCallback(async (name) => {
+        const cookie = document.cookie;
+        let token = "";
+        for (const title of cookie.split(";")) {
+            if (title.includes("token=")) {
+                token = title.replace("token=", "")
+            }
+        }
+        const response = await axios({
+            method: 'GET',
+            url:`http://localhost:4000/download?path=${state.path}${name}`,
+            responseType: 'blob',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        FileDownload(response.data, name);
+    }, [state.path])
+
     return (
         <div>
-            <AdressBar path={state.path} back={back}/>
-            <FileContainer files={state.files} clickOnFolder={clickOnFolder}/>
+            <AdressBar path={state.path} back={back} openPopup={openPopup}/>
+            <FileContainer files={state.files} clickOnFolder={clickOnFolder} clickOnFile={clickOnFile}/>
         </div>
     );
 };
