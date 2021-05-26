@@ -2,6 +2,7 @@ import Layout from "./components/Layout/Layout";
 import {useCallback, useEffect, useState} from "react";
 import axios from "axios";
 import Login from "./components/Login/Login";
+import FileExplorer from "./components/FileExplorer/FileExplorer";
 
 function App() {
 
@@ -41,15 +42,15 @@ function App() {
     }, [])
 
     useEffect(() => {
-        // checkToken()
+        checkToken()
     }, [checkToken])
     return (
         <Layout>
             {!state.isValid ? <Login checkToken={checkToken}/>
                 : null
             }
-            {state.isValid
-
+            {state.isValid ? <FileExplorer/>
+                :null
             }
         </Layout>
     );
