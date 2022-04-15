@@ -4,7 +4,7 @@ import FileContainer from "../FileContainer/FileContainer";
 import axios from "axios";
 const FileDownload = require('js-file-download');
 
-const FileExplorer = ({openPopup, reload}) => {
+const FileExplorer = ({openPopup, reload, reloadFunction}) => {
 
     const [state, setState] = useState({
         path: "/",
@@ -32,6 +32,25 @@ const FileExplorer = ({openPopup, reload}) => {
             }
         })
     }, [state.path])
+
+    const removeFile = useCallback(async (name) => {
+        const cookie = document.cookie;
+        let token = "";
+        for (const title of cookie.split(";")) {
+            if (title.includes("token=")) {
+                token = title.replace("token=", "")
+            }
+        }
+        const response = await axios.post(`http://localhost:4000/removefile`,{
+            path: state.path,
+            name
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        reloadFunction()
+    }, [reloadFunction, state.path])
 
     useEffect(() => {
         getFiles()
@@ -83,7 +102,7 @@ const FileExplorer = ({openPopup, reload}) => {
     return (
         <div>
             <AdressBar path={state.path} back={back} openPopup={openPopup}/>
-            <FileContainer files={state.files} clickOnFolder={clickOnFolder} clickOnFile={clickOnFile}/>
+            <FileContainer files={state.files} clickOnFolder={clickOnFolder} clickOnFile={clickOnFile} removeFile={removeFile}/>
         </div>
     );
 };

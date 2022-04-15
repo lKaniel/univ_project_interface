@@ -1,0 +1,33 @@
+.Logout{
+  width: 100px;
+  height: 75px;
+  background: #ffe;
+  box-shadow: 0px 0px 10px #ffe;
+  text-shadow: 0px 0px 5px #D9AFD9;
+  border-radius: 20px;
+  color: #D9AFD9;
+  font-size: 25px;
+  font-weight: 800;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+  transform: scale(1);
+  position: absolute;
+  margin-left: -1135px;
+  margin-top: -537px;
+  transition: background .1s ease-in-out, color .1s ease-in-out, text-shadow .1s ease-in-out, box-shadow .1s ease-in-out, transform .1s ease-in-out;
+  outline: none;
+  border: none;
+
+  &:hover{
+    background: #D9AFD9;
+    color: #ffe;
+    box-shadow: 0px 0px 20px #D9AFD9;
+    transform: scale(1.1);
+    text-shadow: 0px 0px 5px #ffe;
+  }
+
+  &:active{
+    transform: scale(0.9);
+  }
+}

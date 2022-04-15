@@ -4,6 +4,7 @@ import axios from "axios";
 import Login from "./components/Login/Login";
 import FileExplorer from "./components/FileExplorer/FileExplorer";
 import PopUp from "./components/PopUp/PopUp";
+import Logout from "./components/Logout/Logout";
 
 function App() {
 
@@ -19,28 +20,31 @@ function App() {
         for (const title of cookie.split(";")) {
             if (title.includes("token=")) {
                 token = title.replace("token=", "")
+                console.log(token)
             }
         }
-        let isValid = await axios.get("http://localhost:4000/test", {
-            headers: {
-                Authorization: `Bearer ${token}`
+        try {
+            let isValid = await axios.get("http://localhost:4000/test", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (isValid.data === true) {
+                setState(prev => {
+                    return {
+                        ...prev,
+                        isValid: true
+                    }
+                })
             }
-        })
-        if (isValid.data === true) {
+        }catch (e){
             setState(prev => {
                 return {
                     ...prev,
-                    isValid: true
+                    isValid: false
                 }
             })
-            return
         }
-        setState(prev => {
-            return {
-                ...prev,
-                isValid: false
-            }
-        })
 
     }, [])
 
@@ -48,23 +52,23 @@ function App() {
         checkToken()
     }, [checkToken])
 
-    let reload = useCallback(()=>{
+    let reload = useCallback(() => {
         setState(prev => {
-            return{
+            return {
                 ...prev,
-                reload:!prev.reload
+                reload: !prev.reload
             }
         })
-    },[])
+    }, [])
 
-    const openPopup = useCallback((popup)=>{
+    const openPopup = useCallback((popup) => {
         setState(prev => {
-            return{
+            return {
                 ...prev,
                 popup
             }
         })
-    },[])
+    }, [])
     return (
         <Layout>
             {
@@ -75,8 +79,12 @@ function App() {
             {!state.isValid ? <Login checkToken={checkToken}/>
                 : null
             }
-            {state.isValid ? <FileExplorer reload={state.reload} openPopup={openPopup}/>
-                :null
+            {state.isValid ?
+                <>
+                    <Logout checkToken={checkToken}/>
+                    <FileExplorer reload={state.reload} reloadFunction={reload} openPopup={openPopup}/>
+                </>
+                : null
             }
         </Layout>
     );

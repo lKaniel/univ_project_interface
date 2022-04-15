@@ -3,7 +3,7 @@ import classes from "./FileContainer.module.scss"
 import file from "../../img/file.png";
 import folder from "../../img/folder.png"
 
-const FileContainer = ({files, clickOnFolder, clickOnFile}) => {
+const FileContainer = ({files, clickOnFolder, clickOnFile, removeFile}) => {
 
     let i = 0
     files = files?.map((element, index) => {
@@ -17,7 +17,7 @@ const FileContainer = ({files, clickOnFolder, clickOnFile}) => {
                 if (e.target !== e.currentTarget) return;
                 clickOnFile(element.file)
             }}>
-                <div className={classes.Remove}>
+                <div className={classes.Remove} onClick={()=>{removeFile(element.file)}}>
                     X
                 </div>
                 <img className={classes.Icon} src={element.isDir ? folder : file} onClick={element.isDir ? (e) => {
